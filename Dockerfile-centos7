@@ -5,7 +5,7 @@ ENV GRIDDB_DOWNLOAD_SHA512=2639cc7549f4fc151987c686c76e4deeb4b27f07b8a35dbf50b2f
 
 # Install dependency other
 RUN set -eux \
-    && yum install -y wget python27 automake make gcc gcc-c++ rpm-build rsync \
+    && yum install -y wget python27 automake make gcc gcc-c++ rpm-build rsync libtool \
     && yum clean all
 
 # Install griddb server
