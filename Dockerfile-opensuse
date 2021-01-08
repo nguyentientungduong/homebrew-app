@@ -1,0 +1,34 @@
+FROM opensuse/leap:15.1
+
+ENV GRIDDB_VERSION=4.5.2
+
+# Install dependency gcc-4.8.5 g++-4.8.5
+RUN set -eux \
+    && zypper addrepo https://download.opensuse.org/repositories/devel:gcc/openSUSE_Leap_15.1/devel:gcc.repo \
+    && zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/openSUSE_Leap_15.1/devel:tools:building.repo \
+    && zypper --non-interactive --no-gpg-checks --quiet refresh \
+    && zypper --non-interactive --no-gpg-checks --quiet install --auto-agree-with-licenses gcc48 \
+    && zypper --non-interactive --no-gpg-checks --quiet install --auto-agree-with-licenses gcc48-c++ \
+    && zypper --non-interactive --no-gpg-checks --quiet install --auto-agree-with-licenses libtool
+
+# Install dependency other
+RUN set -eux \
+    && zypper install -y make automake autoconf net-tools python2 rpm-build rsync \
+    && zypper clean all
+
+# Create softlink gcc g++
+RUn set -eux \
+    && ln -sf /usr/bin/g++-4.8 /usr/bin/g++ \
+    && ln -sf /usr/bin/gcc-4.8 /usr/bin/gcc
+
+# Install griddb server
+RUN set -eux \
+# Download package griddb server
+    && wget -q https://github.com/griddb/griddb/releases/download/v${GRIDDB_VERSION}/griddb-${GRIDDB_VERSION}-opensuse.x86_64.rpm \
+# Install package griddb server
+    && rpm -ivh griddb-${GRIDDB_VERSION}-opensuse.x86_64.rpm \
+# Remove package
+    && rm griddb-${GRIDDB_VERSION}-opensuse.x86_64.rpm
+
+
+
