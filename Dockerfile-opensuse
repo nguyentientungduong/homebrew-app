@@ -13,7 +13,7 @@ RUN set -eux \
 
 # Install dependency other
 RUN set -eux \
-    && zypper install -y make automake autoconf net-tools python2 rpm-build rsync \
+    && zypper install -y make automake autoconf net-tools python2 rpm-build rsync wget \
     && zypper clean all
 
 # Create softlink gcc g++
